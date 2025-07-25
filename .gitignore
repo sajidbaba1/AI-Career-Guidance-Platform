@@ -1,0 +1,15 @@
+Node.js
+
+frontend/ai-career-guidance-frontend/node_modules/ frontend/ai-career-guidance-frontend/.next/ frontend/ai-career-guidance-frontend/out/
+
+Java/Maven
+
+backend/target/ backend/.idea/ backend/*.iml
+
+Docker
+
+*.log
+
+Environment files
+
+.env
