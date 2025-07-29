@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import interviewReducer from './features/interviewSlice';
+import interviewReducer from '../features/interviewSlice';
 
 export const store = configureStore({
     reducer: {

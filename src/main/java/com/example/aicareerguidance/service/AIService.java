@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class AIService {
@@ -31,11 +34,25 @@ public class AIService {
         this.objectMapper = objectMapper;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(AIService.class);
+    
     public ResumeRequest processResume(MultipartFile file) throws IOException {
-        String resumeText = new String(file.getBytes());
-        ResumeRequest response = new ResumeRequest();
-        response.setResumeText(resumeText);
-        return response;
+        if (file == null || file.isEmpty()) {
+            logger.error("Uploaded file is null or empty");
+            throw new IllegalArgumentException("Uploaded file cannot be empty");
+        }
+        
+        try (InputStream inputStream = file.getInputStream()) {
+            String resumeText = new String(inputStream.readAllBytes(), "UTF-8");
+            logger.info("Successfully processed resume file: {}", file.getOriginalFilename());
+            
+            ResumeRequest response = new ResumeRequest();
+            response.setResumeText(resumeText);
+            return response;
+        } catch (IOException e) {
+            logger.error("Error processing resume file: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     public InterviewResponse getInterviewQuestion(InterviewRequest request) {

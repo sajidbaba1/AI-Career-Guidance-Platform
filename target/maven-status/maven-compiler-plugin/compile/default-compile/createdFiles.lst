@@ -1,0 +1,9 @@
+com\example\aicareerguidance\dto\ResumeRequest.class
+com\example\aicareerguidance\controller\AIController.class
+com\example\aicareerguidance\dto\InterviewRequest.class
+com\example\aicareerguidance\model\Interview.class
+com\example\aicareerguidance\dto\ReportResponse.class
+com\example\aicareerguidance\repository\InterviewRepository.class
+com\example\aicareerguidance\dto\InterviewResponse.class
+com\example\aicareerguidance\service\AIService.class
+com\example\aicareerguidance\AiCareerGuidancePlatformApplication.class

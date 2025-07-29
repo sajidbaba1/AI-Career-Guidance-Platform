@@ -1,0 +1,9 @@
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\AiCareerGuidancePlatformApplication.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\controller\AIController.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\dto\InterviewRequest.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\dto\InterviewResponse.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\dto\ReportResponse.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\dto\ResumeRequest.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\model\Interview.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\repository\InterviewRepository.java
+G:\Microservices app\ai-career-guidance-platform\src\main\java\com\example\aicareerguidance\service\AIService.java
