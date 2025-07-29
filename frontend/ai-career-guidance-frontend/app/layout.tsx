@@ -3,6 +3,8 @@
 import { GeistProvider, CssBaseline } from '@geist-ui/core';
 import "./globals.css";
 import { Providers } from "./providers";
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 
 // Import metadata from the separate file
 export { metadata } from './metadata';
@@ -18,7 +20,11 @@ export default function RootLayout({
         <GeistProvider>
           <CssBaseline />
           <Providers>
-            {children}
+            <Navigation />
+            <main className="pt-16 min-h-screen">
+              {children}
+            </main>
+            <Footer />
           </Providers>
         </GeistProvider>
       </body>
