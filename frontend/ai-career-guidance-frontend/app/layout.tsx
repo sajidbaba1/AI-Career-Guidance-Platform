@@ -14,16 +14,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
-        <GeistProvider>
-          <CssBaseline />
-          <Providers>
+        <Providers>
+          <GeistProvider>
+            <CssBaseline />
             <Navigation />
             <main className="pt-16 min-h-screen">
               {children}
             </main>
             <Footer />
-          </Providers>
-        </GeistProvider>
+          </GeistProvider>
+        </Providers>
       </body>
     </html>
   );
