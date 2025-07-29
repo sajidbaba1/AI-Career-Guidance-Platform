@@ -6,9 +6,6 @@ import { Providers } from "./providers";
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
-// Import metadata from the separate file
-export { metadata } from './metadata';
-
 export default function RootLayout({
   children,
 }: {
