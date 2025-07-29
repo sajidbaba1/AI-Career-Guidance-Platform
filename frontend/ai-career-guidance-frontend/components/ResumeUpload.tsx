@@ -13,7 +13,7 @@ export default function ResumeUpload() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleUpload = async () => {
     if (!file) return;
     
     setIsLoading(true);
@@ -50,10 +50,13 @@ export default function ResumeUpload() {
       />
       <Button 
         type="success" 
-        onClick={handleSubmit}
-        disabled={!file || isLoading}
+        onClick={handleUpload}
+        disabled={!file}
+        placeholder=""
+        onPointerEnterCapture={() => {}}
+        onPointerLeaveCapture={() => {}}
       >
-        {isLoading ? <Loading /> : 'Analyze Resume'}
+        {isLoading ? 'Uploading...' : 'Upload Resume'}
       </Button>
     </div>
   );

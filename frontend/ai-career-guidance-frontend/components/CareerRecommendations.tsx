@@ -63,7 +63,15 @@ export default function CareerRecommendations() {
             </div>
           </div>
           <Card.Footer>
-            <Button auto scale={0.75}>View Details</Button>
+            <Button 
+              auto 
+              scale={0.8}
+              placeholder=""
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
+            >
+              View Details
+            </Button>
           </Card.Footer>
         </Card>
       ))}

@@ -5,31 +5,21 @@ import { Moon, Sun } from '@geist-ui/icons';
 export default function Navigation() {
   const { themeType, setTheme } = useTheme();
   
-  const toggleTheme = () => {
-    setTheme(themeType === 'dark' ? 'light' : 'dark');
-  };
-
   return (
-    <nav className="fixed top-0 w-full bg-white dark:bg-gray-900 shadow-sm z-50">
+    <nav className="fixed w-full z-50 bg-white dark:bg-gray-900 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <Link href="/" className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-            AI Career Guide
-          </Link>
-          <div className="flex space-x-4 items-center">
-            <Link href="/dashboard" className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-              Dashboard
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
+              AI Career Guide
             </Link>
+          </div>
+          <div className="flex items-center space-x-4">
             <Button 
               auto 
-              iconRight={themeType === 'dark' ? <Sun /> : <Moon />}
-              onClick={toggleTheme}
-              placeholder=""
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
+              onClick={() => setTheme(themeType === 'dark' ? 'light' : 'dark')}
+              icon={themeType === 'dark' ? <Sun /> : <Moon />}
             />
-            <Button auto type="secondary" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>Login</Button>
-            <Button auto type="success" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>Sign Up</Button>
           </div>
         </div>
       </div>

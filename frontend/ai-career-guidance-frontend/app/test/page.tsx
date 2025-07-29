@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
 import { setJobRole, toggleTheme } from '@/features/interviewSlice';
 
 export default function TestPage() {
-  const { jobRole, theme } = useAppSelector((state) => state.interview);
+  const { jobRole } = useAppSelector((state) => state.interview);
   const dispatch = useAppDispatch();
 
   return (
@@ -28,7 +28,6 @@ export default function TestPage() {
 
       <div className="p-4 border rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Theme Test</h2>
-        <p className="mb-4">Current Theme: <span className="font-semibold">{theme}</span></p>
         <button
           onClick={() => dispatch(toggleTheme())}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"

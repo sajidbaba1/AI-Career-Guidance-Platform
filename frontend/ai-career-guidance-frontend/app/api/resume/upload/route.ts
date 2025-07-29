@@ -1,30 +1,37 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
-    const file = formData.get('file');
+    const file = formData.get('file') as File;
     
-    // Forward to backend API
-    const backendResponse = await fetch(
-      'http://localhost:8080/api/resume/upload', 
-      {
-        method: 'POST',
-        body: formData
-      }
-    );
-    
-    if (!backendResponse.ok) {
-      throw new Error('Backend upload failed');
+    if (!file) {
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
+
+    // Initialize Gemini
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
     
-    const result = await backendResponse.json();
-    return NextResponse.json(result);
+    // Process file (simplified example)
+    const fileText = await file.text();
+    const prompt = `Analyze this resume and extract key skills, experiences, and education:\n\n${fileText.substring(0, 10000)}`;
+    
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    
+    return NextResponse.json({
+      analysis: text,
+      fileName: file.name,
+      size: file.size
+    });
     
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: 'Resume upload failed' },
+      { error: 'Backend upload failed' },
       { status: 500 }
     );
   }
