@@ -1,18 +1,22 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { Button, Loading, Note, Text } from '@geist-ui/core';
-import { Upload as UploadIcon } from '@geist-ui/icons';
+import { Button, Loading, Note, Text, Card, Progress } from '@geist-ui/core';
+import { Upload as UploadIcon, FileText, X, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+
+type AnalysisResult = {
+  skills?: string[];
+  experience?: string;
+  education?: string;
+  highlights?: string[];
+  improvements?: string[];
+};
 
 interface UploadResponse {
   success: boolean;
   message?: string;
-  data?: {
-    skills?: string[];
-    experience?: string;
-    education?: string;
-  };
+  data?: AnalysisResult;
 }
 
 export default function ResumeUpload() {
@@ -22,9 +26,33 @@ export default function ResumeUpload() {
   const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
-  const [analysis, setAnalysis] = useState<UploadResponse['data'] | null>(null);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast() || {}; // Handle case where useToast might not be available
+  const { toast } = useToast();
+
+  const CardHeader = ({ children }: { children: React.ReactNode }) => (
+    <div className="flex flex-col space-y-1.5 p-6">
+      {children}
+    </div>
+  );
+
+  const CardTitle = ({ children }: { children: React.ReactNode }) => (
+    <h3 className="text-2xl font-semibold leading-none tracking-tight">
+      {children}
+    </h3>
+  );
+
+  const CardDescription = ({ children }: { children: React.ReactNode }) => (
+    <p className="text-sm text-muted-foreground">
+      {children}
+    </p>
+  );
+
+  const CardContent = ({ children }: { children: React.ReactNode }) => (
+    <div className="p-6 pt-0">
+      {children}
+    </div>
+  );
 
   const validateFile = useCallback((file: File): { valid: boolean; message?: string } => {
     const validTypes = [
