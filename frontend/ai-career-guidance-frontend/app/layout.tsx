@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function RootLayout({
   children,
@@ -22,6 +23,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <Toaster />
           </GeistProvider>
         </Providers>
       </body>
