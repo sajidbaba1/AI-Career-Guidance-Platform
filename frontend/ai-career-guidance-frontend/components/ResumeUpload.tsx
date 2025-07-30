@@ -136,6 +136,11 @@ export default function ResumeUpload() {
   const handleUpload = async () => {
     if (!file) {
       setError('Please select a file first');
+      toast({
+        title: 'Error',
+        description: 'Please select a file first',
+        variant: 'destructive',
+      });
       return;
     }
     
@@ -143,36 +148,90 @@ export default function ResumeUpload() {
     setError('');
     setSuccess('');
     setAnalysis(null);
+    setProgress(0);
     
     try {
-      const formData = new FormData();
-      formData.append('resume', file);
+      // Simulate progress for better UX
+      const progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
       
-      const response = await fetch('/api/resume/upload', {
-        method: 'POST',
-        body: formData,
-        // Don't set Content-Type header, let the browser set it with the correct boundary
-        headers: {}
+      // Convert file to base64 for Gemini API
+      const base64File = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
       });
       
-      const result: UploadResponse = await response.json();
+      // Call Gemini API for analysis
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `Analyze this resume and provide key insights:\n${base64File}\n\nFocus on:
+1. Key skills and technologies
+2. Years of experience
+3. Education background
+4. Career highlights
+5. Areas for improvement
+
+Format the response as JSON with these fields: {"skills": string[], "experience": string, "education": string, "highlights": string[], "improvements": string[]}`
+            }]
+          }]
+        }),
+      });
       
       if (!response.ok) {
-        throw new Error(result.message || 'Upload failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'Failed to analyze resume');
       }
       
-      setSuccess('Resume uploaded and analyzed successfully!');
-      setAnalysis(result.data || null);
+      const result = await response.json();
+      const analysisResult = JSON.parse(result.candidates[0].content.parts[0].text);
       
-      // Reset file input
-      const fileInput = document.getElementById('resume-upload') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
+      // Complete progress
+      setProgress(100);
+      
+      // Set analysis results
+      setAnalysis({
+        skills: analysisResult.skills || [],
+        experience: analysisResult.experience || '',
+        education: analysisResult.education || '',
+        highlights: analysisResult.highlights || [],
+        improvements: analysisResult.improvements || []
+      });
+      
+      setSuccess('Resume analyzed successfully!');
+      
+      toast({
+        title: 'Success',
+        description: 'Your resume has been analyzed successfully!',
+      });
       
     } catch (error) {
       console.error('Upload failed:', error);
-      setError(error instanceof Error ? error.message : 'Failed to upload resume. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to analyze resume. Please try again.';
+      setError(errorMessage);
+      
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
+      setProgress(0);
     }
   };
 
