@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { Button, Loading, Note, Text, Card, Progress } from '@geist-ui/core';
+import { Loading, Note, Text, Card, Progress } from '@geist-ui/core';
 import { Upload as UploadIcon, FileText, X, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
 
 type AnalysisResult = {
   skills?: string[];
@@ -311,9 +312,8 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
                   </p>
                 </div>
               </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <button 
+                className="p-2 rounded-full hover:bg-muted transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setFile(null);
@@ -321,15 +321,15 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
                 }}
               >
                 <X className="h-4 w-4" />
-              </Button>
+              </button>
             </div>
           )}
           
           <div className="mt-6">
-            <Button 
+            <button 
               onClick={handleUpload}
               disabled={!file || isLoading}
-              className="w-full"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md font-medium flex items-center justify-center disabled:opacity-50 disabled:pointer-events-none"
             >
               {isLoading ? (
                 <>
@@ -339,7 +339,7 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
               ) : (
                 'Analyze Resume'
               )}
-            </Button>
+            </button>
             
             {isLoading && progress > 0 && (
               <div className="mt-4 space-y-2">
