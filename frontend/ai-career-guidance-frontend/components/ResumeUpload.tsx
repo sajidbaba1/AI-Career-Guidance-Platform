@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Button, Loading, Note, Text } from '@geist-ui/core';
-import { Upload } from '@geist-ui/icons'; // Import the Upload icon
+import { Upload as UploadIcon } from '@geist-ui/icons';
+import { useToast } from '@/components/ui/use-toast';
 
 interface UploadResponse {
   success: boolean;
@@ -23,7 +24,7 @@ export default function ResumeUpload() {
   const [success, setSuccess] = useState<string>('');
   const [analysis, setAnalysis] = useState<UploadResponse['data'] | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
+  const { toast } = useToast() || {}; // Handle case where useToast might not be available
 
   const validateFile = useCallback((file: File): { valid: boolean; message?: string } => {
     const validTypes = [
@@ -112,35 +113,18 @@ export default function ResumeUpload() {
     setFile(selectedFile);
   };
 
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setSuccess('');
-    setAnalysis(null);
-    
-    if (!e.target.files || e.target.files.length === 0) {
-      setFile(null);
-      return;
-    }
-    
-    const selectedFile = e.target.files[0];
-    const validation = validateFile(selectedFile);
-    
-    if (!validation.valid) {
-      setError(validation.message || 'Invalid file');
-      return;
-    }
-    
-    setFile(selectedFile);
-  }, [validateFile]);
+
 
   const handleUpload = async () => {
     if (!file) {
       setError('Please select a file first');
-      toast({
-        title: 'Error',
-        description: 'Please select a file first',
-        variant: 'destructive',
-      });
+      if (toast) {
+        toast({
+          title: 'Error',
+          description: 'Please select a file first',
+          variant: 'destructive',
+        });
+      }
       return;
     }
     
