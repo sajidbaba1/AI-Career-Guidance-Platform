@@ -360,26 +360,6 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
                 <Progress value={progress} className="h-2" />
               </div>
             )}
-          </div>
-        </CardContent>
-      </Card>
-      
-      {analysis && (
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-bold tracking-tight">Analysis Results</h3>
-            <p className="text-muted-foreground">
-              Here's what we found in your resume
-            </p>
-          </div>
-          
-          <div className="border rounded-lg overflow-hidden">
-            <div className="pt-6 px-6">
-              {analysis.skills && analysis.skills.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold mb-3">Key Skills</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {analysis.skills.map((skill, index) => (
                       <span 
                         key={index}
                         className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary"
