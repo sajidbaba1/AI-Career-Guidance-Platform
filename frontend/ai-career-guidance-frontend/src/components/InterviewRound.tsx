@@ -32,7 +32,7 @@ export default function InterviewRound({ round }: InterviewRoundProps) {
     useEffect(() => {
         dispatch(setCurrentRound(round));
         fetchQuestion();
-    }, [round]);
+    }, [round, dispatch, fetchQuestion]);
 
     const fetchQuestion = async () => {
         dispatch(setLoading(true));
