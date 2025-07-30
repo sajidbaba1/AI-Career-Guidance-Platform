@@ -17,9 +17,13 @@ interface UploadResponse {
 export default function ResumeUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
   const [analysis, setAnalysis] = useState<UploadResponse['data'] | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const validateFile = useCallback((file: File): { valid: boolean; message?: string } => {
     const validTypes = [
@@ -44,6 +48,69 @@ export default function ResumeUpload() {
     
     return { valid: true };
   }, []);
+  
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+  
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }, []);
+  
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    if (!e.dataTransfer.files || e.dataTransfer.files.length === 0) {
+      return;
+    }
+    
+    const droppedFile = e.dataTransfer.files[0];
+    const validation = validateFile(droppedFile);
+    
+    if (!validation.valid) {
+      setError(validation.message || 'Invalid file');
+      toast({
+        title: 'Error',
+        description: validation.message || 'Invalid file',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    setFile(droppedFile);
+  }, [validateFile, toast]);
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError('');
+    setSuccess('');
+    setAnalysis(null);
+    
+    if (!e.target.files || e.target.files.length === 0) {
+      setFile(null);
+      return;
+    }
+    
+    const selectedFile = e.target.files[0];
+    const validation = validateFile(selectedFile);
+    
+    if (!validation.valid) {
+      setError(validation.message || 'Invalid file');
+      toast({
+        title: 'Error',
+        description: validation.message || 'Invalid file',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    setFile(selectedFile);
+  };
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
