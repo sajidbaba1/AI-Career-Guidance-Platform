@@ -32,7 +32,7 @@ export default function InterviewAssistant({ resumeAnalysis }: InterviewAssistan
     const initVapi = async () => {
       try {
         const Vapi = (await import('@vapi-ai/web')).default;
-        vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY);
+        vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY || '');
         
         vapiRef.current.on('call-start', () => {
           setIsCallActive(true);
