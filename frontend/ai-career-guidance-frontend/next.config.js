@@ -18,6 +18,19 @@ const securityHeaders = [
   },
 ];
 
+// Suppress specific React warnings in development
+if (process.env.NODE_ENV === 'development') {
+  const originalConsoleError = console.error;
+  console.error = (...args) => {
+    const msg = args[0] || '';
+    // Suppress Geist UI defaultProps warnings
+    if (typeof msg === 'string' && msg.includes('defaultProps will be removed from function components')) {
+      return;
+    }
+    originalConsoleError.apply(console, args);
+  };
+}
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -26,25 +39,22 @@ const nextConfig = {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
   },
   images: {
-    domains: [],
+    domains: ['images.unsplash.com'],
     formats: ['image/avif', 'image/webp'],
   },
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/:path*',
         headers: securityHeaders,
       },
     ];
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Don't include certain packages in the client bundle
+      // don't resolve 'fs' module on the client to prevent this error on build
       config.resolve.fallback = {
-        ...config.resolve.fallback,
         fs: false,
-        net: false,
-        tls: false,
       };
     }
     return config;

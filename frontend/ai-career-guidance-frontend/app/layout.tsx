@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased bg-white dark:bg-gray-900 transition-colors duration-200">
         <Providers>
           <GeistProvider>
             <CssBaseline />

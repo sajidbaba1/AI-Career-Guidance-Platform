@@ -1,4 +1,4 @@
-import { analyzeResumeWithGemini } from '@/lib/geminiService';
+import { analyzeResumeWithGemini } from '@lib/geminiService';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
