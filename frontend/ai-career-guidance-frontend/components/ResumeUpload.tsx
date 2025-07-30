@@ -363,8 +363,8 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
             </p>
           </div>
           
-          <Card>
-            <CardContent className="pt-6">
+          <div className="border rounded-lg overflow-hidden">
+            <div className="pt-6 px-6">
               {analysis.skills && analysis.skills.length > 0 && (
                 <div className="mb-6">
                   <h4 className="text-lg font-semibold mb-3">Key Skills</h4>
@@ -436,8 +436,8 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
                   </ul>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
           
           <div className="flex justify-end">
             <Button 

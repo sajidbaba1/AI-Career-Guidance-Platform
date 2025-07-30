@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks';
-import { setJobRole, toggleTheme } from '@/features/interviewSlice';
+import { setJobRole, toggleTheme } from '@/lib/features/interviewSlice';
 
 export default function TestPage() {
   const { jobRole } = useAppSelector((state) => state.interview);
