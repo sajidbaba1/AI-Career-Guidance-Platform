@@ -262,17 +262,8 @@ Format the response as JSON with these fields: {"skills": string[], "experience"
       <div className="grid md:grid-cols-2 gap-8">
         {/* Upload Section */}
         <div className="bg-card rounded-xl border p-6 shadow-sm">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-              <FileSearch className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h2 className="text-2xl font-bold">Resume Analysis</h2>
           </div>
-        <CardHeader>
-          <CardTitle>Upload Your Resume</CardTitle>
-          <CardDescription>
-            We support PDF, DOC, and DOCX files up to 5MB
-          </CardDescription>
+          <h2 className="text-2xl font-bold">Resume Analysis</h2>
         </CardHeader>
         <CardContent>
           <div 
